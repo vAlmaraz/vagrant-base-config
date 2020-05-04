@@ -6,6 +6,7 @@ Vagrant.configure("2") do |config|
 
     # Setup synced folder
     # config.vm.synced_folder "./", "/var/www", create: true, group: "www-data", owner: "www-data"
+    config.vm.synced_folder '.', '/vagrant', disabled: true
 
     ## SSH Configuration
     config.ssh.username = 'user'
