@@ -1,18 +1,25 @@
+# https://www.sitepoint.com/vagrantfile-explained-setting-provisioning-shell/
+# https://www.linode.com/docs/applications/configuration-management/vagrant-linode-environments/
 Vagrant.configure("2") do |config|
-	
-	# Specify the base box
-	config.vm.box = "primalskill/ubuntu-trusty64"
-	
-	# Setup port forwarding
-	config.vm.network :forwarded_port, guest: 80, host: 8931, auto_correct: true
+    # Specify the base box
+    config.vm.box = "ubuntu/bionic64"
 
     # Setup synced folder
-    config.vm.synced_folder "./", "/var/www", create: true, group: "www-data", owner: "www-data"
+    # config.vm.synced_folder "./", "/var/www", create: true, group: "www-data", owner: "www-data"
 
-    # VM specific configs
-    config.vm.provider "virtualbox" do |v|
-    	v.name = "SitePoint Test Vagrant"
-    	v.customize ["modifyvm", :id, "--memory", "1024"]
+    ## SSH Configuration
+    config.ssh.username = 'user'
+    config.ssh.private_key_path = '~/.ssh/id_rsa'
+
+    # Global Configuration
+    config.vm.provider :linode do |provider, override|
+      override.vm.box = 'linode'
+      override.vm.box_url = "https://github.com/displague/vagrant-linode/raw/master/box/linode.box"
+      provider.token = 'API-KEY'
+      provider.distribution = 'Ubuntu 20.04 LTS'
+      provider.datacenter = 'dallas'
+      provider.plan = '2048'
+      # provider.label = 'vagrant-ubuntu-lts'
     end
 
     # Shell provisioning
