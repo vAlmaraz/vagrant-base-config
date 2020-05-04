@@ -31,7 +31,7 @@ apt-get install postgresql -y > /dev/null
 
 # Apache Configuration
 echo "Configuring Apache"
-cp /var/www/provision/config/web.conf /etc/apache2/sites-available/web.conf > /dev/null
+cp /var/www/provision/apache2/sites-available/web.conf /etc/apache2/sites-available/web.conf > /dev/null
 a2ensite web.conf
 
 a2dissite 000-default.conf
